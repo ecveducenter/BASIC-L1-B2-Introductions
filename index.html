@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d8f6e9">
+  <title>Lesson 2 - Introduction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #193e35;
+      --muted: #6f8980;
+      --green: #24765c;
+      --green-dark: #175b46;
+      --mint: #d8f6e9;
+      --line: #e4eee8;
+      --coral: #f08e72;
+      --paper: #fff;
+      font-family: "Montserrat", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(135deg, #d8f6e9 0%, #f4fff9 100%);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #d8f6e9 0%, #f4fff9 100%);
+    }
+
+    button, select { font: inherit; }
+
+    .page-shell {
+      width: min(1100px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 38px 42px 40px;
+      border-radius: 14px;
+      background: linear-gradient(120deg, #27785e, #3d9672);
+      box-shadow: 0 16px 40px rgb(31 104 77 / 15%);
+      animation: rise-in 500ms ease-out both;
+    }
+
+    .hero::after {
+      position: absolute;
+      right: -25px;
+      bottom: -105px;
+      width: 250px;
+      height: 250px;
+      border: 1px solid rgb(255 255 255 / 17%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 26px rgb(255 255 255 / 5%), 0 0 0 54px rgb(255 255 255 / 4%);
+      content: "";
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #c9f2df;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: #fff;
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin: 13px 0 0;
+      color: #e5f7ed;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .exercise {
+      margin-top: 24px;
+      padding: 28px;
+      border: 1px solid rgb(255 255 255 / 85%);
+      border-radius: 12px;
+      background: rgb(255 255 255 / 92%);
+      box-shadow: 0 12px 34px rgb(31 104 77 / 8%);
+      animation: rise-in 550ms 80ms ease-out both;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .section-note {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .status {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #edf7f1;
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status[data-state="done"] { background: #e3f4e9; }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.9fr);
+      align-items: start;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .meaning-bank {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+      border: 1px solid #e3eee7;
+      border-radius: 9px;
+      background: #f7fbf8;
+    }
+
+    .bank-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 14px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .bank-title::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--coral);
+      content: "";
+    }
+
+    .meaning-list {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .meaning-item {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      align-items: start;
+      gap: 9px;
+      padding: 8px 9px;
+      border-radius: 6px;
+      background: #fff;
+      color: #36584d;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .meaning-number {
+      display: grid;
+      width: 25px;
+      height: 25px;
+      place-items: center;
+      border-radius: 6px;
+      background: #e7f5ec;
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .question-heading,
+    .question {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 68px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .question-heading {
+      padding: 0 14px 2px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .question-heading span:last-child { text-align: center; }
+
+    .question-list { display: grid; gap: 10px; }
+
+    .question {
+      min-height: 66px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      transition: border-color 160ms ease, background-color 160ms ease;
+    }
+
+    .question-number {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: #eaf6ef;
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .sentence {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+
+    .answer-select {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 8px;
+      border: 1px solid #d7e6dc;
+      border-radius: 6px;
+      outline: none;
+      background: #fbfdfb;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .answer-select option:disabled {
+      color: #9aaa9f;
+      text-decoration: line-through;
+    }
+
+    .answer-select:focus-visible, button:focus-visible {
+      outline: 3px solid rgb(45 137 99 / 28%);
+      outline-offset: 2px;
+    }
+
+    .question.is-correct { border-color: #80c99d; background: #f2fbf5; }
+    .question.is-wrong { border-color: #efb19e; background: #fff7f4; }
+
+    .question.is-correct .answer-select { border-color: #80c99d; }
+    .question.is-wrong .answer-select { border-color: #efb19e; }
+
+    .answer-result {
+      display: none;
+      grid-column: 2 / -1;
+      color: #a64830;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .question.is-wrong .answer-result { display: block; }
+
+    .feedback {
+      min-height: 22px;
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .feedback[data-state="error"] { color: #a64830; }
+    .feedback[data-state="success"] { color: var(--green-dark); font-weight: 600; }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .button {
+      min-height: 43px;
+      padding: 0 17px;
+      border: 0;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 160ms ease, transform 160ms ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { background: var(--green); color: #fff; }
+    .button-primary:hover { background: var(--green-dark); }
+    .button-secondary { background: #edf5f0; color: var(--green-dark); }
+    .button-secondary:hover { background: #e0eee5; }
+
+    .ordering-section { margin-top: 34px; }
+
+    .ordering-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #d8e9de;
+    }
+
+    .ordering-heading h2 { color: var(--ink); }
+
+    .order-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .order-card {
+      min-width: 0;
+      padding: 18px 20px;
+      border: 1px solid #e0ece4;
+      border-radius: 8px;
+      background: #fff;
+      transition: border-color 160ms ease, background-color 160ms ease;
+    }
+
+    .order-card.is-correct { border-color: #80c99d; background: #f2fbf5; }
+    .order-card.is-wrong { border-color: #efb19e; background: #fff7f4; }
+
+    .order-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .order-number {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 7px;
+      background: #eaf6ef;
+      color: var(--green-dark);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .word-bank,
+    .answer-dropzone {
+      display: flex;
+      min-height: 46px;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .word-token {
+      min-height: 40px;
+      padding: 0 11px;
+      border: 1px solid #add9bf;
+      border-radius: 7px;
+      background: #f0faf4;
+      color: #496579;
+      font-size: 14px;
+      line-height: 1.3;
+      cursor: grab;
+      transition: background-color 140ms ease, border-color 140ms ease, opacity 140ms ease;
+    }
+
+    .word-token:hover { border-color: #73b88f; background: #e8f7ee; }
+    .word-token:active { cursor: grabbing; }
+    .word-token.is-used { color: #91a79a; text-decoration: line-through; cursor: default; }
+    .word-token.is-used:hover { border-color: #add9bf; background: #f0faf4; }
+
+    .answer-dropzone {
+      align-content: flex-start;
+      margin-top: 7px;
+      padding: 6px;
+      border: 1px dashed #a9d8bb;
+      border-radius: 7px;
+      background: #fff;
+      transition: background-color 140ms ease, border-color 140ms ease;
+    }
+
+    .answer-dropzone.is-over { border-color: #4c9a6b; background: #f2fbf5; }
+
+    .answer-placeholder {
+      padding: 7px 4px;
+      color: #92a89a;
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    .selected-word { border-color: #8bc6a1; background: #edf8f1; cursor: grab; }
+    .selected-word:hover { border-color: #58a276; background: #e4f4e9; }
+
+    .order-hint {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .order-result {
+      display: none;
+      margin: 7px 0 0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .order-card.is-correct .order-result,
+    .order-card.is-wrong .order-result { display: block; }
+
+    .order-card.is-correct .order-result { color: var(--green-dark); }
+    .order-card.is-wrong .order-result { color: #a64830; }
+
+    .ordering-feedback[data-state="error"] { color: #a64830; }
+    .ordering-feedback[data-state="success"] { color: var(--green-dark); font-weight: 600; }
+
+    .ordering-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 760px) {
+      .page-shell { width: min(100% - 28px, 620px); padding: 22px 0 40px; }
+      .hero { padding: 28px 24px 30px; }
+      h1 { font-size: 32px; }
+      .exercise { padding: 21px 17px; }
+      .activity-grid { grid-template-columns: 1fr; gap: 17px; }
+      .meaning-bank { position: static; }
+      .meaning-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .question-heading,
+      .question { grid-template-columns: 30px minmax(0, 1fr) 58px; gap: 9px; }
+    }
+
+    @media (max-width: 480px) {
+      .section-heading { flex-direction: column; gap: 12px; }
+      .question-heading,
+      .question { grid-template-columns: 30px minmax(0, 1fr) 58px; gap: 9px; padding: 12px; }
+      .question-heading { padding: 0 12px 2px; }
+      .meaning-list { grid-template-columns: 1fr; }
+      .actions { align-items: stretch; }
+      .button { flex: 1; padding: 0 10px; }
+      .ordering-heading { align-items: flex-start; flex-direction: column; }
+      .order-card { padding: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Basic English · Lesson 2</p>
+      <h1>Introduction</h1>
+      <p class="hero-copy">Luyện các mẫu câu giới thiệu bản thân và làm quen với mọi người trong giao tiếp hằng ngày.</p>
+    </header>
+
+    <section class="exercise" aria-labelledby="exercise-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="exercise-title">I. Basic sentences <span aria-hidden="true">|</span> Mẫu câu cơ bản</h2>
+          <p class="section-note">Chọn số thứ tự của nghĩa tiếng Việt phù hợp với từng câu tiếng Anh.</p>
+        </div>
+        <div class="status" id="status" aria-live="polite">Chưa nộp bài</div>
+      </div>
+
+      <div class="activity-grid">
+        <form id="quiz-form" novalidate>
+          <div class="question-heading" aria-hidden="true"><span></span><span>Câu tiếng Anh</span><span>Số</span></div>
+          <div class="question-list" id="question-list"></div>
+          <p class="feedback" id="feedback" aria-live="polite"></p>
+          <div class="actions">
+            <button class="button button-primary" type="submit">Kiểm tra đáp án</button>
+            <button class="button button-secondary" type="button" id="reset-button">Làm lại</button>
+          </div>
+        </form>
+        <aside class="meaning-bank" aria-labelledby="bank-title">
+          <h3 class="bank-title" id="bank-title">Nghĩa tiếng Việt</h3>
+          <ol class="meaning-list" id="meaning-list"></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="ordering-section" aria-labelledby="ordering-title">
+      <div class="ordering-heading">
+        <div>
+          <h2 id="ordering-title">II. Sentence Ordering <span aria-hidden="true">|</span> Sắp xếp câu</h2>
+          <p class="section-note">Kéo từ vào khung theo đúng thứ tự, hoặc nhấp vào từ để chọn; nhấp lại từ trong khung để bỏ ra.</p>
+        </div>
+        <div class="status" id="ordering-status" aria-live="polite">Chưa nộp bài</div>
+      </div>
+      <div class="order-list" id="order-list"></div>
+      <p class="feedback ordering-feedback" id="ordering-feedback" aria-live="polite"></p>
+      <div class="ordering-actions">
+        <button class="button button-primary" type="button" id="check-ordering">Kiểm tra phần II</button>
+        <button class="button button-secondary" type="button" id="reset-ordering">Làm lại phần II</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const lesson = [
+      { english: "Hi, I’m Hany", vietnamese: "Chào bạn, tôi là Hany" },
+      { english: "My name is Hany", vietnamese: "Tên tôi là Hany" },
+      { english: "You can call me Hany", vietnamese: "Bạn có thể gọi tôi là Hany" },
+      { english: "Are you John?", vietnamese: "Bạn là John phải không?" },
+      { english: "Yes, I am.", vietnamese: "Phải." },
+      { english: "Meet my friend.", vietnamese: "Hãy làm quen với bạn tôi." },
+      { english: "This is my brother, Bill.", vietnamese: "Đây là Bill, anh tôi." },
+      { english: "Come say hi to my parents.", vietnamese: "Hãy đến chào ba mẹ tôi nhé." },
+      { english: "Have you met my sister?", vietnamese: "Bạn đã gặp chị tôi chưa?" },
+      { english: "Have we met before?", vietnamese: "Trước đây chúng ta có gặp nhau chưa?" },
+      { english: "Do I know you?", vietnamese: "Tôi có quen anh không?" },
+      { english: "I’m new around here.", vietnamese: "Tôi là người mới đến đây." },
+      { english: "Let me introduce myself.", vietnamese: "Cho phép tôi được tự giới thiệu." },
+      { english: "I didn’t catch your name.", vietnamese: "Tôi chưa biết tên anh." },
+      { english: "I’d like to introduce you to my boss.", vietnamese: "Tôi muốn giới thiệu bạn với sếp của tôi." }
+    ];
+
+    const meaningList = document.querySelector("#meaning-list");
+    const questionList = document.querySelector("#question-list");
+    const quizForm = document.querySelector("#quiz-form");
+    const status = document.querySelector("#status");
+    const feedback = document.querySelector("#feedback");
+    const orderList = document.querySelector("#order-list");
+    const orderingStatus = document.querySelector("#ordering-status");
+    const orderingFeedback = document.querySelector("#ordering-feedback");
+    let shuffledMeanings = [];
+    let orderingStates = [];
+
+    function shuffle(items) {
+      const result = [...items];
+      for (let index = result.length - 1; index > 0; index -= 1) {
+        const otherIndex = Math.floor(Math.random() * (index + 1));
+        [result[index], result[otherIndex]] = [result[otherIndex], result[index]];
+      }
+      return result;
+    }
+
+    function clearOrderingResults() {
+      orderingStates.forEach(({ card, result }) => {
+        card.classList.remove("is-correct", "is-wrong");
+        result.textContent = "";
+      });
+      if (orderingStatus.dataset.state === "done") {
+        orderingStatus.textContent = "Đã thay đổi đáp án";
+        orderingStatus.dataset.state = "";
+        orderingFeedback.textContent = "Sắp xếp lại rồi kiểm tra để cập nhật điểm.";
+        orderingFeedback.dataset.state = "";
+      } else if (orderingFeedback.dataset.state === "error") {
+        orderingFeedback.textContent = "";
+        orderingFeedback.dataset.state = "";
+      }
+    }
+
+    function renderOrdering() {
+      orderingStates = [];
+      orderList.replaceChildren(...lesson.map((item, index) => {
+        const words = item.english.split(/\s+/).map((text, wordIndex) => ({ id: wordIndex, text }));
+        const bankWords = shuffle(words);
+        let selectedIds = [];
+
+        const card = document.createElement("article");
+        card.className = "order-card";
+        const header = document.createElement("div");
+        header.className = "order-card-header";
+        const number = document.createElement("span");
+        number.className = "order-number";
+        number.textContent = String(index + 1);
+        header.append(number);
+
+        const bank = document.createElement("div");
+        bank.className = "word-bank";
+        bank.setAttribute("aria-label", `Từ cho câu ${index + 1}`);
+        const dropzone = document.createElement("div");
+        dropzone.className = "answer-dropzone";
+        dropzone.setAttribute("role", "group");
+        dropzone.setAttribute("aria-label", `Câu trả lời ${index + 1}`);
+        const placeholder = document.createElement("span");
+        placeholder.className = "answer-placeholder";
+        placeholder.textContent = "Kéo từ vào đây";
+        const hint = document.createElement("p");
+        hint.className = "order-hint";
+        hint.textContent = item.vietnamese;
+        const result = document.createElement("p");
+        result.className = "order-result";
+
+        function makeDragData(event, word, fromAnswer) {
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", JSON.stringify({ card: index, word: word.id, fromAnswer }));
+        }
+
+        function readDragData(event) {
+          try {
+            return JSON.parse(event.dataTransfer.getData("text/plain"));
+          } catch {
+            return null;
+          }
+        }
+
+        function renderWords() {
+          bank.replaceChildren(...bankWords.map((word) => {
+            const token = document.createElement("button");
+            token.type = "button";
+            token.className = "word-token";
+            token.textContent = word.text;
+            token.draggable = true;
+            token.disabled = selectedIds.includes(word.id);
+            token.setAttribute("aria-label", token.disabled ? `${word.text}, đã chọn` : `Chọn từ ${word.text}`);
+            if (token.disabled) token.classList.add("is-used");
+            token.addEventListener("click", () => {
+              if (selectedIds.includes(word.id)) return;
+              selectedIds = [...selectedIds, word.id];
+              clearOrderingResults();
+              renderWords();
+            });
+            token.addEventListener("dragstart", (event) => makeDragData(event, word, false));
+            return token;
+          }));
+
+          if (selectedIds.length === 0) {
+            dropzone.replaceChildren(placeholder);
+            return;
+          }
+
+          dropzone.replaceChildren(...selectedIds.map((wordId) => {
+            const word = words[wordId];
+            const token = document.createElement("button");
+            token.type = "button";
+            token.className = "word-token selected-word";
+            token.textContent = word.text;
+            token.draggable = true;
+            token.dataset.wordId = String(wordId);
+            token.setAttribute("aria-label", `Bỏ từ ${word.text} khỏi câu trả lời`);
+            token.addEventListener("click", () => {
+              selectedIds = selectedIds.filter((id) => id !== wordId);
+              clearOrderingResults();
+              renderWords();
+            });
+            token.addEventListener("dragstart", (event) => makeDragData(event, word, true));
+            return token;
+          }));
+        }
+
+        bank.addEventListener("dragover", (event) => event.preventDefault());
+        bank.addEventListener("drop", (event) => {
+          event.preventDefault();
+          const dragData = readDragData(event);
+          if (!dragData || dragData.card !== index || !dragData.fromAnswer) return;
+          selectedIds = selectedIds.filter((id) => id !== dragData.word);
+          clearOrderingResults();
+          renderWords();
+        });
+
+        function handleAnswerDrop(event) {
+          event.preventDefault();
+          dropzone.classList.remove("is-over");
+          const dragData = readDragData(event);
+          if (!dragData || dragData.card !== index) return;
+          const target = event.target.closest(".selected-word");
+          if (target && Number(target.dataset.wordId) === dragData.word) return;
+
+          const nextIds = selectedIds.filter((id) => id !== dragData.word);
+          if (!dragData.fromAnswer && selectedIds.includes(dragData.word)) return;
+          let insertAt = nextIds.length;
+          if (target) {
+            const targetIndex = nextIds.indexOf(Number(target.dataset.wordId));
+            if (targetIndex !== -1) {
+              const bounds = target.getBoundingClientRect();
+              insertAt = targetIndex + Number(event.clientX > bounds.left + bounds.width / 2);
+            }
+          }
+          nextIds.splice(insertAt, 0, dragData.word);
+          selectedIds = nextIds;
+          clearOrderingResults();
+          renderWords();
+        }
+
+        card.addEventListener("dragover", (event) => {
+          if (event.target.closest(".word-bank")) return;
+          event.preventDefault();
+          dropzone.classList.add("is-over");
+        });
+        card.addEventListener("drop", (event) => {
+          if (event.target.closest(".word-bank, .answer-dropzone")) return;
+          handleAnswerDrop(event);
+        });
+
+        dropzone.addEventListener("dragover", (event) => {
+          event.preventDefault();
+          dropzone.classList.add("is-over");
+        });
+        dropzone.addEventListener("dragleave", (event) => {
+          if (!dropzone.contains(event.relatedTarget)) dropzone.classList.remove("is-over");
+        });
+        dropzone.addEventListener("drop", handleAnswerDrop);
+
+        card.append(header, bank, dropzone, hint, result);
+        orderingStates.push({
+          card,
+          words,
+          dropzone,
+          result,
+          get selectedIds() { return selectedIds; }
+        });
+        renderWords();
+        return card;
+      }));
+
+      orderingStatus.textContent = "Chưa nộp bài";
+      orderingStatus.dataset.state = "";
+      orderingFeedback.textContent = "";
+      orderingFeedback.dataset.state = "";
+    }
+
+    function checkOrdering() {
+      const incomplete = orderingStates.find((state) => state.selectedIds.length !== state.words.length);
+      if (incomplete) {
+        orderingFeedback.textContent = "Bạn hãy sắp xếp đủ từ cho cả 15 câu trước khi kiểm tra.";
+        orderingFeedback.dataset.state = "error";
+        incomplete.dropzone.focus();
+        return;
+      }
+
+      let score = 0;
+      orderingStates.forEach((state) => {
+        const correct = state.selectedIds.every((wordId, position) => state.words[wordId].text === state.words[position].text);
+        state.card.classList.toggle("is-correct", correct);
+        state.card.classList.toggle("is-wrong", !correct);
+        state.result.textContent = correct ? "Câu này đúng" : "Câu này sai";
+        if (correct) score += 1;
+      });
+
+      orderingStatus.textContent = `Kết quả phần II: ${score} / ${lesson.length}`;
+      orderingStatus.dataset.state = "done";
+      orderingFeedback.textContent = score === lesson.length
+        ? "Chính xác! Bạn đã sắp xếp đúng tất cả các câu."
+        : `Bạn làm đúng ${score}/${lesson.length} câu. Câu sai được đánh dấu đỏ.`;
+      orderingFeedback.dataset.state = "success";
+    }
+
+    function updateAvailableNumbers() {
+      const selects = [...questionList.querySelectorAll("select")];
+      selects.forEach((select) => {
+        [...select.options].forEach((option) => {
+          if (!option.value) return;
+          const usedElsewhere = selects.some((other) => other !== select && other.value === option.value);
+          option.disabled = usedElsewhere;
+          option.textContent = usedElsewhere ? `${option.value}\u0336` : option.value;
+        });
+      });
+    }
+
+    function render() {
+      shuffledMeanings = shuffle(lesson);
+      meaningList.replaceChildren(...shuffledMeanings.map((item, index) => {
+        const row = document.createElement("li");
+        row.className = "meaning-item";
+        row.innerHTML = `<span class="meaning-number">${index + 1}</span><span>${item.vietnamese}</span>`;
+        return row;
+      }));
+
+      questionList.replaceChildren(...lesson.map((item, index) => {
+        const row = document.createElement("div");
+        row.className = "question";
+        row.dataset.question = String(index);
+
+        const number = document.createElement("span");
+        number.className = "question-number";
+        number.textContent = String(index + 1).padStart(2, "0");
+        const sentence = document.createElement("p");
+        sentence.className = "sentence";
+        sentence.textContent = item.english;
+        const result = document.createElement("span");
+        result.className = "answer-result";
+        result.textContent = "Câu này sai";
+        const select = document.createElement("select");
+        select.className = "answer-select";
+        select.name = `answer-${index}`;
+        select.setAttribute("aria-label", `Chọn nghĩa tiếng Việt cho câu ${index + 1}: ${item.english}`);
+        select.innerHTML = '<option value="" selected>—</option>' + lesson.map((_, optionIndex) =>
+          `<option value="${optionIndex + 1}">${optionIndex + 1}</option>`
+        ).join("");
+
+        row.append(number, sentence, select, result);
+        select.addEventListener("change", () => {
+          updateAvailableNumbers();
+          row.classList.remove("is-correct", "is-wrong");
+          if (status.dataset.state === "done") {
+            status.textContent = "Đã thay đổi đáp án";
+            status.dataset.state = "";
+            feedback.textContent = "Kiểm tra lại để cập nhật kết quả.";
+            feedback.dataset.state = "";
+          }
+        });
+        return row;
+      }));
+
+      updateAvailableNumbers();
+      status.textContent = "Chưa nộp bài";
+      status.dataset.state = "";
+      feedback.textContent = "";
+      feedback.dataset.state = "";
+    }
+
+    quizForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const selects = [...questionList.querySelectorAll("select")];
+      const unanswered = selects.find((select) => !select.value);
+      if (unanswered) {
+        feedback.textContent = "Bạn hãy chọn nghĩa cho đủ 15 câu trước khi kiểm tra nhé.";
+        feedback.dataset.state = "error";
+        unanswered.focus();
+        return;
+      }
+
+      let score = 0;
+      selects.forEach((select, index) => {
+        const expected = shuffledMeanings.findIndex((item) => item.english === lesson[index].english) + 1;
+        const correct = Number(select.value) === expected;
+        const row = select.closest(".question");
+        row.classList.toggle("is-correct", correct);
+        row.classList.toggle("is-wrong", !correct);
+        if (correct) score += 1;
+      });
+
+      status.textContent = `Kết quả: ${score} / ${lesson.length}`;
+      status.dataset.state = "done";
+      feedback.textContent = score === lesson.length
+        ? "Chính xác! Bạn đã nối đúng tất cả các câu."
+        : `Bạn làm đúng ${score}/${lesson.length} câu. Câu trả lời sai được đánh dấu đỏ.`;
+      feedback.dataset.state = "success";
+    });
+
+    document.querySelector("#reset-button").addEventListener("click", render);
+    document.querySelector("#check-ordering").addEventListener("click", checkOrdering);
+    document.querySelector("#reset-ordering").addEventListener("click", renderOrdering);
+    render();
+    renderOrdering();
+  </script>
+</body>
+</html>
