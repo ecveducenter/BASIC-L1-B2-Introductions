@@ -357,6 +357,7 @@
 
     .order-card.is-correct { border-color: #80c99d; background: #f2fbf5; }
     .order-card.is-wrong { border-color: #e28a7a; background: #fff0ed; }
+    .order-card.is-unanswered { border-color: #d9e2dc; background: #f7f9f7; }
 
     .order-card-header {
       display: flex;
@@ -452,10 +453,12 @@
     }
 
     .order-card.is-correct .order-result,
-    .order-card.is-wrong .order-result { display: block; }
+    .order-card.is-wrong .order-result,
+    .order-card.is-unanswered .order-result { display: block; }
 
     .order-card.is-correct .order-result { color: var(--green-dark); }
     .order-card.is-wrong .order-result { color: #a64830; }
+    .order-card.is-unanswered .order-result { color: var(--muted); }
     .order-card.is-wrong .selected-word { border-color: #e5a29a; background: #ffe3de; color: #8f3528; }
 
     .ordering-feedback[data-state="error"] { color: #a64830; }
@@ -799,29 +802,25 @@
     }
 
     function checkOrdering() {
-      const incomplete = orderingStates.find((state) => state.selectedIds.length !== state.words.length);
-      if (incomplete) {
-        orderingFeedback.textContent = "Bạn hãy sắp xếp đủ từ cho cả 15 câu trước khi kiểm tra.";
-        orderingFeedback.dataset.state = "error";
-        incomplete.dropzone.focus();
-        return;
-      }
-
       let score = 0;
+      let unanswered = 0;
       orderingStates.forEach((state) => {
-        const correct = state.selectedIds.every((wordId, position) => state.words[wordId].text === state.words[position].text);
+        const complete = state.selectedIds.length === state.words.length;
+        const correct = complete && state.selectedIds.every((wordId, position) => state.words[wordId].text === state.words[position].text);
         state.card.classList.toggle("is-correct", correct);
-        state.card.classList.toggle("is-wrong", !correct);
-        state.result.textContent = correct ? "Câu này đúng" : "Câu này sai";
+        state.card.classList.toggle("is-wrong", complete && !correct);
+        state.card.classList.toggle("is-unanswered", !complete);
+        state.result.textContent = correct ? "Câu này đúng" : complete ? "Câu này sai" : "Chưa xếp đủ từ";
         if (correct) score += 1;
+        if (!complete) unanswered += 1;
       });
 
       orderingStatus.textContent = `Kết quả phần II: ${score} / ${orderingExercises.length}`;
       orderingStatus.dataset.state = "done";
-      orderingFeedback.textContent = score === lesson.length
+      orderingFeedback.textContent = score === orderingExercises.length
         ? "Chính xác! Bạn đã sắp xếp đúng tất cả các câu."
-        : `Bạn làm đúng ${score}/${orderingExercises.length} câu. Câu sai được đánh dấu đỏ.`;
-      orderingFeedback.dataset.state = "success";
+        : `Bạn làm đúng ${score}/${orderingExercises.length} câu.${unanswered ? ` Còn ${unanswered} câu chưa xếp đủ từ.` : " Câu sai được đánh dấu đỏ."}`;
+      orderingFeedback.dataset.state = score === orderingExercises.length ? "success" : "error";
     }
 
     function updateAvailableNumbers() {
