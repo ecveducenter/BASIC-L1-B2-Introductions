@@ -356,7 +356,7 @@
     }
 
     .order-card.is-correct { border-color: #80c99d; background: #f2fbf5; }
-    .order-card.is-wrong { border-color: #efb19e; background: #fff7f4; }
+    .order-card.is-wrong { border-color: #e28a7a; background: #fff0ed; }
 
     .order-card-header {
       display: flex;
@@ -434,6 +434,16 @@
       line-height: 1.55;
     }
 
+    .substitution-options {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .substitution-label { color: var(--green-dark); font-weight: 700; }
+    .substitution-term + .substitution-term::before { content: " · "; color: #9aafa2; }
+
     .order-result {
       display: none;
       margin: 7px 0 0;
@@ -446,6 +456,7 @@
 
     .order-card.is-correct .order-result { color: var(--green-dark); }
     .order-card.is-wrong .order-result { color: #a64830; }
+    .order-card.is-wrong .selected-word { border-color: #e5a29a; background: #ffe3de; color: #8f3528; }
 
     .ordering-feedback[data-state="error"] { color: #a64830; }
     .ordering-feedback[data-state="success"] { color: var(--green-dark); font-weight: 600; }
@@ -561,6 +572,24 @@
       { english: "I’d like to introduce you to my boss.", vietnamese: "Tôi muốn giới thiệu bạn với sếp của tôi." }
     ];
 
+    const orderingExercises = [
+      { english: "My name is Bill.", vietnamese: "Tên tôi là Bill.", alternatives: [["Daisy", "Daisy"], ["Henry", "Henry"], ["Tom", "Tom"]] },
+      { english: "I just need to make an appointment.", vietnamese: "Tôi chỉ cần xin một cuộc hẹn.", alternatives: [["set up", "ấn định"], ["schedule", "xếp lịch"], ["arrange", "sắp xếp"]] },
+      { english: "Good, we need more people to play.", vietnamese: "Tốt, chúng tôi cần thêm người chơi.", alternatives: [["guys", "người"], ["women", "nữ"], ["persons", "người"]] },
+      { english: "Good, we need more people to play.", vietnamese: "Tốt, chúng tôi cần thêm người chơi.", alternatives: [["Great", "Tuyệt"], ["Excellent", "Hay lắm"], ["Awesome", "Tuyệt"]] },
+      { english: "We’re just here for fun.", vietnamese: "Chúng ta chỉ đến đây chơi cho vui thôi mà.", alternatives: [["pleasure", "vui"], ["enjoyment", "vui"], ["recreation", "giải khuây"]] },
+      { english: "I’m not very good.", vietnamese: "Tôi chơi không giỏi lắm.", alternatives: [["skillful", "giỏi"], ["talented", "tài"], ["experienced", "kinh nghiệm"]] },
+      { english: "Oh, that is my mother’s name.", vietnamese: "Ồ, đó là tên của mẹ tôi.", alternatives: [["aunt’s", "dì"], ["sister’s", "chị / em gái"], ["grandmother’s", "bà"]] },
+      { english: "Ever since I was young, that is what people have called me.", vietnamese: "Từ lúc tôi còn nhỏ đến giờ, đó là tên mọi người vẫn thường gọi tôi.", alternatives: [["little", "nhỏ"], ["small", "nhỏ"], ["a child", "bé"]] },
+      { english: "Is it an emergency?", vietnamese: "Có khẩn cấp lắm không?", alternatives: [["urgent", "khẩn cấp"], ["serious", "nghiêm trọng"], ["critical", "nguy kịch"]] },
+      { english: "Oh, I didn’t catch your name.", vietnamese: "Ồ, tôi chưa biết tên anh.", alternatives: [["get", "biết"], ["hear", "nghe"], ["recognize", "nhận ra"]] },
+      { english: "I’m friends with Bob, your roommate.", vietnamese: "Tôi là bạn của Bob, bạn cùng phòng với cô.", alternatives: [["boss", "sếp"], ["boyfriend", "bạn trai"], ["brother", "anh / em trai"]] },
+      { english: "My stomach has been hurting.", vietnamese: "Dạo này tôi cứ bị đau dạ dày.", alternatives: [["chest", "ngực"], ["arm", "cánh tay"], ["head", "đầu"]] },
+      { english: "No, I mean what is the cost?", vietnamese: "Không, ý tôi là chi phí hết bao nhiêu?", alternatives: [["expense?", "phí tổn"], ["price?", "giá"], ["total?", "tổng cộng"]] },
+      { english: "I’m here to play baseball.", vietnamese: "Tôi đến đây để chơi bóng chày.", alternatives: [["basketball.", "bóng rổ"], ["football.", "bóng đá"], ["soccer.", "bóng đá"]] },
+      { english: "I’ll see you soon.", vietnamese: "Hẹn gặp anh sớm.", alternatives: [["later.", "sau"], ["tomorrow.", "ngày mai"], ["next week.", "tuần sau"]] }
+    ];
+
     const meaningList = document.querySelector("#meaning-list");
     const questionList = document.querySelector("#question-list");
     const quizForm = document.querySelector("#quiz-form");
@@ -599,7 +628,7 @@
 
     function renderOrdering() {
       orderingStates = [];
-      orderList.replaceChildren(...lesson.map((item, index) => {
+      orderList.replaceChildren(...orderingExercises.map((item, index) => {
         const words = item.english.split(/\s+/).map((text, wordIndex) => ({ id: wordIndex, text }));
         const bankWords = shuffle(words);
         let selectedIds = [];
@@ -626,6 +655,18 @@
         const hint = document.createElement("p");
         hint.className = "order-hint";
         hint.textContent = item.vietnamese;
+        const alternatives = document.createElement("p");
+        alternatives.className = "substitution-options";
+        const alternativeLabel = document.createElement("span");
+        alternativeLabel.className = "substitution-label";
+        alternativeLabel.textContent = "Từ thay thế: ";
+        alternatives.append(alternativeLabel, ...item.alternatives.map(([word, meaning], optionIndex) => {
+          const term = document.createElement("span");
+          term.className = "substitution-term";
+          term.textContent = `${word} (${meaning})`;
+          if (optionIndex > 0) term.classList.add("substitution-term-spaced");
+          return term;
+        }));
         const result = document.createElement("p");
         result.className = "order-result";
 
@@ -739,7 +780,7 @@
         });
         dropzone.addEventListener("drop", handleAnswerDrop);
 
-        card.append(header, bank, dropzone, hint, result);
+        card.append(header, bank, dropzone, hint, alternatives, result);
         orderingStates.push({
           card,
           words,
@@ -775,11 +816,11 @@
         if (correct) score += 1;
       });
 
-      orderingStatus.textContent = `Kết quả phần II: ${score} / ${lesson.length}`;
+      orderingStatus.textContent = `Kết quả phần II: ${score} / ${orderingExercises.length}`;
       orderingStatus.dataset.state = "done";
       orderingFeedback.textContent = score === lesson.length
         ? "Chính xác! Bạn đã sắp xếp đúng tất cả các câu."
-        : `Bạn làm đúng ${score}/${lesson.length} câu. Câu sai được đánh dấu đỏ.`;
+        : `Bạn làm đúng ${score}/${orderingExercises.length} câu. Câu sai được đánh dấu đỏ.`;
       orderingFeedback.dataset.state = "success";
     }
 
